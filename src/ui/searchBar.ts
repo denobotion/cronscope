@@ -37,6 +37,15 @@ export function clearSearch(state: SearchState): SearchState {
   return { query: "", active: false };
 }
 
+/**
+ * Returns true if the given text matches the current search query.
+ * Matching is case-insensitive. Returns true when the query is empty.
+ */
+export function matchesSearch(state: SearchState, text: string): boolean {
+  if (!state.query) return true;
+  return text.toLowerCase().includes(state.query.toLowerCase());
+}
+
 export function renderSearchBar(state: SearchState, width: number): string {
   const label = state.active ? " Search: " : " Press / to search ";
   const cursor = state.active ? "█" : "";
