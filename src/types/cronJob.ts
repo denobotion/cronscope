@@ -1,30 +1,41 @@
-export interface CronSchedule {
-  minute: string;
-  hour: string;
-  dayOfMonth: string;
-  month: string;
-  dayOfWeek: string;
-}
-
 export interface CronJob {
   id: string;
-  schedule: CronSchedule;
+  schedule: string;
   command: string;
-  source: string;
-  raw: string;
   user?: string;
+  host?: string;
+  description?: string;
+  enabled: boolean;
   lastRun?: Date;
   nextRun?: Date;
+  status?: JobStatus;
+  tags?: string[];
 }
 
-export interface ParseResult {
-  jobs: CronJob[];
-  errors: ParseError[];
-  source: string;
+export type JobStatus = 'ok' | 'warning' | 'error' | 'unknown' | 'stale';
+
+export interface JobFilter {
+  status?: JobStatus;
+  host?: string;
+  query?: string;
 }
 
-export interface ParseError {
-  line: number;
-  content: string;
-  reason: string;
+export type SortField = 'nextRun' | 'status' | 'host' | 'command';
+
+export interface SortOptions {
+  field: SortField;
+  direction: 'asc' | 'desc';
+}
+
+export interface KeyBinding {
+  key: string;
+  description: string;
+}
+
+export interface RemoteHost {
+  alias: string;
+  hostname: string;
+  user?: string;
+  port?: number;
+  identityFile?: string;
 }
